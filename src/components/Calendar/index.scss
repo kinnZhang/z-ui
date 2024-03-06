@@ -1,0 +1,86 @@
+.zu-calendar {
+  width: 100%;
+}
+
+.zu-calendar-month {
+  user-select: none;
+
+  &-week {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    border-bottom: 1px solid #ccc;
+
+    &-item {
+      padding: 20px 16px;
+      text-align: left;
+      color: #7d7d7f;
+    }
+  }
+
+  &-body {
+    &-row {
+      height: 100px;
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+    }
+
+    &-cell {
+      border: 1px solid #eee;
+      padding: 10px;
+      color: #ccc;
+
+      &-current {
+        color: #000;
+      }
+    }
+  }
+}
+
+.zu-calendar-header {
+  &-left {
+    display: flex;
+    align-items: center;
+
+    height: 28px;
+    line-height: 28px;
+  }
+
+  &-value {
+    font-size: 20px;
+  }
+
+  &-btn {
+    background: #eee;
+    cursor: pointer;
+    border: 0;
+    padding: 0 15px;
+    line-height: 28px;
+
+    &:hover {
+      background: #ccc;
+    }
+  }
+
+  &-icon {
+    width: 28px;
+    height: 28px;
+
+    line-height: 28px;
+
+    border-radius: 50%;
+    text-align: center;
+    font-size: 12px;
+
+    user-select: none;
+    cursor: pointer;
+
+    margin-right: 12px;
+    &:not(:first-child) {
+      margin: 0 12px;
+    }
+
+    &:hover {
+      background: #ccc;
+    }
+  }
+}
