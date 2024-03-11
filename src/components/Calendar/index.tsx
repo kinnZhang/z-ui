@@ -4,6 +4,7 @@ import "./index.scss";
 import { CSSProperties, ReactNode, useState } from "react";
 import Header from "./Header";
 import cs from "classnames";
+import CalendarLocaleContext from "./Locale/LocaleContext";
 
 export interface CalendarProps {
   value: Dayjs;
@@ -11,11 +12,12 @@ export interface CalendarProps {
   style?: CSSProperties;
   dateRender?: (date: Dayjs) => ReactNode;
   dateInnerContent?: (date: Dayjs) => ReactNode;
+  locale?: string;
   onChange?: (date: Dayjs) => void;
 }
 
 function Calendar(props: CalendarProps) {
-  const { value, className, style, onChange } = props;
+  const { value, className, style, locale, onChange } = props;
 
   const [crtValue, setCrtValue] = useState(value);
   const [crtMonth, setCrtMonth] = useState(value);
@@ -46,20 +48,26 @@ function Calendar(props: CalendarProps) {
   };
 
   return (
-    <div className={classNames} style={style}>
-      <Header
-        value={crtMonth}
-        prevMonthHandler={prevMonthHandler}
-        nextMonthHandler={nextMonthHandler}
-        todayHandler={todayHandler}
-      />
-      <MonthCalendar
-        {...props}
-        crtMonth={crtMonth}
-        value={crtValue}
-        selectHandler={selectHandler}
-      />
-    </div>
+    <CalendarLocaleContext.Provider
+      value={{
+        locale: locale || navigator.language,
+      }}
+    >
+      <div className={classNames} style={style}>
+        <Header
+          value={crtMonth}
+          prevMonthHandler={prevMonthHandler}
+          nextMonthHandler={nextMonthHandler}
+          todayHandler={todayHandler}
+        />
+        <MonthCalendar
+          {...props}
+          crtMonth={crtMonth}
+          value={crtValue}
+          selectHandler={selectHandler}
+        />
+      </div>
+    </CalendarLocaleContext.Provider>
   );
 }
 

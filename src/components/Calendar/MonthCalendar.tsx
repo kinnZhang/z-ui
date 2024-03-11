@@ -1,8 +1,10 @@
 import { Dayjs } from "dayjs";
-import { useMemo } from "react";
+import { useContext, useMemo } from "react";
 import { getAllDays } from "./utils";
 import { CalendarProps } from ".";
 import cs from "classnames";
+import CalendarLocaleContext from "./Locale/LocaleContext";
+import allLocale from "./Locale";
 
 interface MonthCalendarProps extends CalendarProps {
   crtMonth: Dayjs;
@@ -10,11 +12,26 @@ interface MonthCalendarProps extends CalendarProps {
 }
 
 function MonthCalendar(props: MonthCalendarProps) {
-  const { crtMonth, value, selectHandler, dateRender, dateInnerContent } =
-    props;
+  const {
+    crtMonth,
+    value,
+    selectHandler,
+    dateRender,
+    dateInnerContent,
+  } = props;
   const weekList: string[] = useMemo(() => {
-    return ["周日", "周一", "周二", "周三", "周四", "周五", "周六"];
+    return [
+      "sunday",
+      "monday",
+      "tuesday",
+      "wednesday",
+      "thursday",
+      "friday",
+      "saturday",
+    ];
   }, []);
+  const context = useContext(CalendarLocaleContext);
+  const CalendarLocale = allLocale[context.locale];
   const allDays = getAllDays(crtMonth);
   const renderDays = (
     days: Array<{
@@ -43,8 +60,7 @@ function MonthCalendar(props: MonthCalendarProps) {
                 <div
                   className={cs(
                     "zu-calendar-month-body-cell-date-value",
-                    day.date.format("YYYY-MM-DD") ===
-                      value.format("YYYY-MM-DD")
+                    day.date.format("YYYY-MM-DD") === value.format("YYYY-MM-DD")
                       ? "zu-calendar-month-body-cell-date-selected"
                       : ""
                   )}
@@ -73,7 +89,7 @@ function MonthCalendar(props: MonthCalendarProps) {
       <div className='zu-calendar-month-week'>
         {weekList.map((week) => (
           <div className='zu-calendar-month-week-item' key={week}>
-            {week}
+            {CalendarLocale.week[week]}
           </div>
         ))}
       </div>
